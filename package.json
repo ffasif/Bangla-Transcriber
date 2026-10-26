@@ -1,0 +1,31 @@
+{
+  "name": "bangla-transcriber",
+  "version": "1.0.0",
+  "description": "Turn any audio or video into a clean Bangla transcript",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev:electron": "electron .",
+    "dev:worker": "npm --prefix worker start",
+    "dev:web": "npm --prefix web start",
+    "build:web": "npm --prefix web run build",
+    "check": "npm --prefix web run check && npm --prefix worker run check"
+  },
+  "keywords": [
+    "transcriber",
+    "bangla",
+    "electron",
+    "speech-to-text"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.12",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@google/genai": "^2.28.0",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0"
+  }
+}

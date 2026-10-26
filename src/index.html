@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bangla Transcriber</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Top Bar: Subtle Status Indicator -->
+    <header class="top-nav">
+      <div class="brand">
+        <div class="logo-mark">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+        </div>
+        <span class="brand-title">Bangla Transcriber</span>
+      </div>
+
+      <div id="envStatusPill" class="env-pill" title="Checks .env configuration">
+        <span class="status-dot"></span>
+        <span id="envStatusText" class="status-label">Checking configuration...</span>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Screen 1: Drop & Select Screen -->
+      <section id="uploadView" class="view-panel active">
+        <div class="hero-header">
+          <h1 class="hero-title">Bangla Transcriber</h1>
+          <p class="hero-subtitle">Turn any audio into a clean Bangla transcript.</p>
+        </div>
+
+        <!-- Mode Switcher: Upload File vs YouTube Link -->
+        <div class="input-mode-switcher" role="tablist" aria-label="Input Method">
+          <button type="button" id="modeUploadBtn" class="mode-tab-btn active" role="tab" aria-selected="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <span>Upload File</span>
+          </button>
+          <button type="button" id="modeYoutubeBtn" class="mode-tab-btn" role="tab" aria-selected="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
+              <polygon points="10 15 15 12 10 9 10 15"/>
+            </svg>
+            <span>YouTube</span>
+          </button>
+        </div>
+
+        <!-- Drag & Drop Zone (Upload File Mode) -->
+        <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Drop audio or video here or click to browse">
+          <div class="drop-zone-inner">
+            <div class="upload-icon-wrapper">
+              <svg class="upload-icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+                <path d="M12 12v9"/>
+                <path d="m8 16 4-4 4 4"/>
+              </svg>
+            </div>
+            
+            <h2 class="drop-title">Drop audio or video here</h2>
+            <span class="drop-divider">or</span>
+            
+            <button id="browseBtn" type="button" class="btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>
+              </svg>
+              Browse from computer
+            </button>
+
+            <div class="format-chips">
+              <span class="chip">MP3</span>
+              <span class="chip">WAV</span>
+              <span class="chip">M4A</span>
+              <span class="chip">MP4</span>
+              <span class="chip">MOV</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- YouTube Link Input Zone (YouTube Mode) -->
+        <div id="youtubeZone" class="youtube-zone hidden">
+          <div class="youtube-zone-inner">
+            <div class="youtube-icon-wrapper">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
+                <polygon points="10 15 15 12 10 9 10 15"/>
+              </svg>
+            </div>
+            
+            <h2 class="drop-title">Transcribe from YouTube</h2>
+            <p class="youtube-description">Enter a public YouTube video or Shorts link to transcribe speech verbatim.</p>
+            
+            <form id="youtubeForm" class="youtube-form" onsubmit="return false;">
+              <div class="youtube-input-group">
+                <svg class="youtube-input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </svg>
+                <input
+                  type="url"
+                  id="youtubeUrlInput"
+                  class="youtube-url-input"
+                  placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
+                  autocomplete="off"
+                  spellcheck="false"
+                  aria-label="YouTube Video URL"
+                />
+                <button type="button" id="clearYoutubeUrlBtn" class="youtube-clear-btn hidden" title="Clear URL">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+
+              <button type="submit" id="transcribeYoutubeBtn" class="btn-primary btn-youtube-submit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                <span>Transcribe Video</span>
+              </button>
+            </form>
+
+            <div class="format-chips">
+              <span class="chip">YouTube</span>
+              <span class="chip">Videos</span>
+              <span class="chip">Shorts</span>
+              <span class="chip">Live Streams</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected File / Media Preview Card (Hidden until file/URL selected) -->
+        <div id="fileCard" class="file-card hidden">
+          <div class="file-card-info">
+            <div id="fileIconBox" class="file-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13"/>
+                <circle cx="6" cy="18" r="3"/>
+                <circle cx="18" cy="16" r="3"/>
+              </svg>
+            </div>
+            <div class="file-text-meta">
+              <span id="fileName" class="file-name">filename.mp3</span>
+              <span id="fileSize" class="file-size">0.0 MB</span>
+            </div>
+          </div>
+          <button id="clearFileBtn" type="button" class="btn-text-danger" title="Remove selected file">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Remove
+          </button>
+        </div>
+
+        <!-- Loading / Processing Card -->
+        <div id="loadingCard" class="loading-card hidden" aria-live="polite">
+          <div class="spinner-ring"></div>
+          <div class="loading-text-group">
+            <h3 id="loadingTitle" class="loading-title">Transcribing audio...</h3>
+            <p id="loadingSubtitle" class="loading-subtitle">Detecting language, speakers, and generating transcript</p>
+          </div>
+        </div>
+
+        <!-- Transcript Display & Editor Card -->
+        <div id="transcriptCard" class="transcript-card hidden">
+          <div class="transcript-header">
+            <div class="transcript-header-left">
+              <div class="transcript-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <span id="transcriptTitle">Original Transcript</span>
+                <span id="transcriptSourceTag" class="source-tag hidden">Original Captions</span>
+              </div>
+
+              <!-- View Tabs Switcher (shown after translation) -->
+              <div id="viewTabs" class="view-tabs hidden">
+                <button type="button" id="tabOriginal" class="tab-pill active" title="View original transcript">Original</button>
+                <button type="button" id="tabBangla" class="tab-pill" title="View Bangla translation">Bangla</button>
+              </div>
+            </div>
+
+            <div class="transcript-header-actions">
+              <!-- Action Button: Translate to Bangla -->
+              <button id="translateBtn" type="button" class="btn-action-translate" title="Translate transcript to Bangla">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m5 8 6 6"/>
+                  <path d="m4 14 6-6 2-3"/>
+                  <path d="M2 5h12"/>
+                  <path d="M7 2h1"/>
+                  <path d="m22 22-5-10-5 10"/>
+                  <path d="M14 18h6"/>
+                </svg>
+                <span>Translate to Bangla</span>
+              </button>
+
+              <button id="copyTranscriptBtn" type="button" class="btn-copy" title="Copy transcript to clipboard">
+                <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                <svg class="check-icon hidden" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span id="copyBtnText">Copy Transcript</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Translation Progress Bar & Status (shown when translating) -->
+          <div id="translationProgressContainer" class="translation-progress-card hidden" aria-live="polite">
+            <div class="progress-info-row">
+              <div class="progress-status-group">
+                <div class="spinner-mini"></div>
+                <span id="translationStatusLabel" class="progress-status-label">Translating to Bangla...</span>
+              </div>
+              <span id="translationPercentLabel" class="progress-percent-label">0%</span>
+            </div>
+            <div class="progress-track">
+              <div id="translationProgressBar" class="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="transcript-body">
+            <textarea
+              id="transcriptEditor"
+              class="transcript-editor"
+              placeholder="Transcript will appear here..."
+              spellcheck="false"
+              aria-label="Editable transcript"
+            ></textarea>
+          </div>
+
+          <div class="transcript-footer">
+            <button id="newFileBtn" type="button" class="btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                <polyline points="16 6 12 2 8 6"/>
+                <line x1="12" y1="2" x2="12" y2="15"/>
+              </svg>
+              Transcribe Another File
+            </button>
+          </div>
+        </div>
+
+        <!-- Feedback Alert Toast -->
+        <div id="toastMessage" class="toast-message hidden" role="alert"></div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

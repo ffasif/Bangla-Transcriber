@@ -1,0 +1,20 @@
+{
+  "name": "bangla-transcriber-web",
+  "version": "1.0.0",
+  "description": "Deployable web app frontend and serverless gateway for Bangla Transcriber on Vercel",
+  "scripts": {
+    "start": "serve .",
+    "dev": "vercel dev || npx serve .",
+    "build": "node build.js",
+    "check": "node build.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.28.0"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

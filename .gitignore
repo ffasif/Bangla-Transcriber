@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Secrets and environment configs
+.env
+**/.env
+**/.env*.local
+.env.*
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Build and deployment outputs
+dist/
+build/
+out/
+.vercel/
+**/.vercel/
+*.zip
+*.tar.gz
+*.log
+npm-debug.log*
+
+# System and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary media files and user-uploaded audio/video
+*.mp3
+*.wav
+*.m4a
+*.mp4
+*.mov
+*.webm
+*.ogg
+*.flac
+bangla_uploads/
+temp_*
+extracted_*
+stt_chunk_*
+yt_stream_*
