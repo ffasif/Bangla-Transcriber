@@ -1,9 +1,10 @@
 # Production Dockerfile for Bangla Transcriber Worker
-FROM node:20-bullseye-slim
+FROM node:20-bookworm-slim
 
-# Install system FFmpeg
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends ffmpeg && \
+# Install system FFmpeg from active Debian Bookworm repositories in a single layer
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update -y && \
+    apt-get install -y --no-install-recommends --fix-missing ffmpeg ca-certificates && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -11,7 +12,7 @@ WORKDIR /app
 
 # Copy dependency manifests
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copy application source
 COPY . .
